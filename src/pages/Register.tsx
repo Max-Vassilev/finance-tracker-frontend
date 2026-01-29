@@ -1,32 +1,27 @@
-import { useState } from "react";
-import { useAuth } from "../auth/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import "../styles/landing.css";
 
 export default function Register() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { register } = useAuth();
-  const nav = useNavigate();
-
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await register(email, password);
-    nav("/app/dashboard");
-  };
+  const navigate = useNavigate();
 
   return (
-    <form onSubmit={submit}>
-      <h2>Register</h2>
-      <input
-        placeholder="email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        placeholder="password"
-        type="password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button>Register</button>
-    </form>
+    <div className="auth-page">
+      <header className="landing-header">
+        <Link to="/" className="landing-logo">Finance Tracker</Link>
+        <nav className="landing-nav">
+          <Link to="/login" className="nav-link">Login</Link>
+        </nav>
+      </header>
+
+      <div className="auth-container">
+        <div className="auth-card">
+          <h2>Register</h2>
+          <input placeholder="Email" />
+          <input placeholder="Password" type="password" />
+          <button onClick={() => navigate("/app/dashboard")}>Register</button>
+          <p>Already have an account? <Link to="/login">Login</Link></p>
+        </div>
+      </div>
+    </div>
   );
 }
