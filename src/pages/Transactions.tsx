@@ -1,3 +1,3 @@
 export default function Transactions() {
-  return <h2>Transactions page</h2>;
+  return <h1>Transactions</h1>;
 }

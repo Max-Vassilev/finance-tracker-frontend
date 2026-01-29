@@ -7,7 +7,7 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
 import Categories from "./pages/Categories";
-import Navbar from "./components/Navbar";
+import Layout from "./components/Layout";
 
 export default function App() {
   return (
@@ -16,19 +16,17 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
           <Route
             path="/app/*"
             element={
               <RequireAuth>
-                <>
-                  <Navbar />
+                <Layout>
                   <Routes>
                     <Route path="dashboard" element={<Dashboard />} />
                     <Route path="transactions" element={<Transactions />} />
                     <Route path="categories" element={<Categories />} />
                   </Routes>
-                </>
+                </Layout>
               </RequireAuth>
             }
           />
