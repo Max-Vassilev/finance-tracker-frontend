@@ -1,38 +1,28 @@
-import { createContext, useContext, useState, ReactNode } from "react";
-import api from "../api/client";
+import { createContext, useContext, useState } from "react";
+
+type User = { email: string } | null;
 
 type AuthContextType = {
-  token: string | null;
-  login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string) => Promise<void>;
+  user: User;
+  login: (email: string) => void;
   logout: () => void;
 };
 
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setToken] = useState<string | null>(
-    localStorage.getItem("token")
-  );
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<User>(null);
 
-  const login = async (email: string, password: string) => {
-    const res = await api.post("/auth/login", { email, password });
-    localStorage.setItem("token", res.data.access_token);
-    setToken(res.data.access_token);
-  };
+  function login(email: string) {
+    setUser({ email });
+  }
 
-  const register = async (email: string, password: string) => {
-    await api.post("/auth/register", { email, password });
-    await login(email, password);
-  };
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    setToken(null);
-  };
+  function logout() {
+    setUser(null);
+  }
 
   return (
-    <AuthContext.Provider value={{ token, login, register, logout }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

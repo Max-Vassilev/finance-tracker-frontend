@@ -1,30 +1,34 @@
-import Navbar from "./Navbar";
+import { Outlet, Link } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
+import "../styles/landing.css";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout() {
+  const { user } = useAuth();
+
   return (
-    <div style={{ display: "flex", minHeight: "100vh" }}>
-      
-      <aside
-        style={{
-          width: "240px",
-          background: "#0f172a",
-          color: "#fff",
-          padding: "20px",
-        }}
-      >
-        <h2 style={{ marginBottom: "20px" }}>Finance Tracker</h2>
-        <Navbar />
-      </aside>
+    <>
+      <header className="landing-header">
+        <div className="landing-logo">
+          <Link to="/">Finance Tracker</Link>
+        </div>
 
-      <main
-        style={{
-          flex: 1,
-          padding: "40px",
-          background: "#f5f6fa",
-        }}
-      >
-        {children}
-      </main>
-    </div>
+        <nav className="landing-nav">
+          {!user && (
+            <>
+              <Link to="/login" className="nav-link">Login</Link>
+              <Link to="/register" className="nav-link">Register</Link>
+            </>
+          )}
+
+          {user && (
+            <Link to="/app/dashboard" className="nav-button">
+              Dashboard
+            </Link>
+          )}
+        </nav>
+      </header>
+
+      <Outlet />
+    </>
   );
 }

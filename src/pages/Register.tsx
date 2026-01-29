@@ -1,26 +1,26 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useAuth } from "../auth/AuthContext";
 import "../styles/landing.css";
 
 export default function Register() {
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
+
+  function handleRegister() {
+    login(email);
+    navigate("/app/dashboard");
+  }
 
   return (
     <div className="auth-page">
-      <header className="landing-header">
-        <Link to="/" className="landing-logo">Finance Tracker</Link>
-        <nav className="landing-nav">
-          <Link to="/login" className="nav-link">Login</Link>
-        </nav>
-      </header>
-
-      <div className="auth-container">
-        <div className="auth-card">
-          <h2>Register</h2>
-          <input placeholder="Email" />
-          <input placeholder="Password" type="password" />
-          <button onClick={() => navigate("/app/dashboard")}>Register</button>
-          <p>Already have an account? <Link to="/login">Login</Link></p>
-        </div>
+      <div className="auth-card">
+        <h2>Register</h2>
+        <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+        <input placeholder="Password" type="password" />
+        <button onClick={handleRegister}>Register</button>
+        <p>Already have an account? <Link to="/login">Login</Link></p>
       </div>
     </div>
   );

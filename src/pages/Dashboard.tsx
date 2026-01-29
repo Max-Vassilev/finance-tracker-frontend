@@ -4,7 +4,6 @@ export default function Dashboard() {
   return (
     <div className="app-layout">
       <aside className="sidebar">
-        <div className="sidebar-logo">Finance Tracker</div>
         <Navbar />
       </aside>
 
